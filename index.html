@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DAL</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app" :class="{ 'night-mode': isNightMode }">
+    <h1>"Deutschland: Artikel lernen!" - DAL</h1>
+    <div class="word-display" :class="wordColor">{{ randomWord }}</div>
+    <div class="button-container">
+      <!-- <button @click="checkArticle('Der')" :class="[(wordColor === 'green' && currentArticle === 'Der')? 'correct': '', currentArticle && wordColor != 'green'? 'incorrect': '']">Der</button>
+      <button @click="checkArticle('Die')" :class="[(wordColor === 'green' && currentArticle === 'Die')? 'correct': '']">Die</button>
+      <button @click="checkArticle('Das')" :class="[(wordColor === 'green' && currentArticle === 'Das')? 'correct': '']">Das</button> -->
+      <button v-for="obj of ['Der', 'Die', 'Das']" @click="checkArticle(obj)" :class="getClass(obj)" :disabled="blockClicks"> {{ obj }}</button>
+    </div>
+    <div>
+      <span> Right: {{ rightScore }}</span> // <span> Wrong: {{ wrongScore }}</span>
+    </div>
+    <div class="button-container">
+      <button @click="updateWord">Update Word</button>
+    </div>
+    <div class="word-count">
+      <h2>Word Count</h2>
+      <ul>
+        <li>Words with article 'der': {{ wordCount.der }}</li>
+        <li>Words with article 'die': {{ wordCount.die }}</li>
+        <li>Words with article 'das': {{ wordCount.das }}</li>
+      </ul>
+    </div>
+    <div class="night-mode-toggle">
+      <label>
+        <div class="switch-ios" :class="{ checked: isNightMode }">
+          <input type="checkbox" v-model="isNightMode" class="switch-ios-input">
+        </div>    <span>Night Mode</span>
+      </label>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

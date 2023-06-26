@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vue.js Random Word</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+    body {
+      background-color: #ecf0f3;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    #app {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #3498db;
+      text-align: center;
+    }
+
+    .word-display {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 2px solid #3498db;
+      background-color: #ffffff;
+      color: #3498db;
+    }
+
+    .word-display.green {
+      color: #27ae60;
+      border-color: #27ae60;
+    }
+
+    .word-display.red {
+      color: #c0392b;
+      border-color: #c0392b;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .button-container button {
+      background-color: #3498db;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      margin: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button-container button.correct {
+      background-color: #27ae60;
+    }
+
+    .button-container button.incorrect {
+      background-color: #c0392b;
+    }
+
+    .button-container button:hover {
+      background-color: #2980b9;
+    }
+
+    .word-count {
+      text-align: center;
+    }
+
+    .word-count h2 {
+      color: #3498db;
+    }
+
+    .word-count ul {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 10px;
+    }
+
+    .word-count li {
+      margin-bottom: 5px;
+      color: #555555;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>Random Word</h1>
+    <div class="word-display" :class="wordColor">{{ randomWord }}</div>
+    <div class="button-container">
+      <button @click="checkArticle('Der')" :class="{ correct: wordColor === 'green' && currentArticle === 'Der', incorrect: wordColor === 'red' && currentArticle === 'Der' }">Der</button>
+      <button @click="checkArticle('Die')" :class="{ correct: wordColor === 'green' && currentArticle === 'Die', incorrect: wordColor === 'red' && currentArticle === 'Die' }">Die</button>
+      <button @click="checkArticle('Das')" :class="{ correct: wordColor === 'green' && currentArticle === 'Das', incorrect: wordColor === 'red' && currentArticle === 'Das' }">Das</button>
+    </div>
+    <div class="button-container">
+      <button @click="updateWord">Update Word</button>
+    </div>
+    <div class="word-count">
+      <h2>Word Count</h2>
+      <ul>
+        <li>Words with article 'der': {{ wordCount.der }}</li>
+        <li>Words with article 'die': {{ wordCount.die }}</li>
+        <li>Words with article 'das': {{ wordCount.das }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        randomWord: '',
+        wordColor: '',
+        currentArticle: '',
+        wordCount: {
+          der: 0,
+          die: 0,
+          das: 0
+        }
+      },
+      mounted() {
+        this.loadWords();
+        this.loadWordCount();
+      },
+      methods: {
+        loadWords() {
+          const files = ['der.txt', 'die.txt', 'das.txt'];
+          const randomFile = files[Math.floor(Math.random() * files.length)];
+
+          fetch(randomFile)
+            .then(response => response.text())
+            .then(data => {
+              const words = data.split('\n');
+              const randomLine = words[Math.floor(Math.random() * words.length)];
+              this.randomWord = randomLine.split(' ')[1];
+              this.wordColor = '';
+              this.currentArticle = '';
+            });
+        },
+        loadWordCount() {
+          const files = ['der.txt', 'die.txt', 'das.txt'];
+
+          for (const file of files) {
+            fetch(file)
+              .then(response => response.text())
+              .then(data => {
+                const lines = data.split('\n');
+                const article = file.split('.')[0];
+                this.wordCount[article] = lines.length;
+              });
+          }
+        },
+        checkArticle(article) {
+          const files = ['der.txt', 'die.txt', 'das.txt'];
+
+          for (const file of files) {
+            fetch(file)
+              .then(response => response.text())
+              .then(data => {
+                const words = data.split('\n');
+                for (const line of words) {
+                  const word = line.split(' ')[1];
+                  const wordArticle = line.split(' ')[0];
+
+                  if (word === this.randomWord && wordArticle === article) {
+                    this.wordColor = 'green';
+                    this.currentArticle = article;
+                    return;
+                  }
+                }
+              });
+          }
+
+          this.wordColor = 'red';
+          this.currentArticle = article;
+        },
+        updateWord() {
+          this.loadWords();
+        }
+      }
+    });
+  </script>
+</body>
+</html>
