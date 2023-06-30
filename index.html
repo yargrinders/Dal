@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>DAL - </title>
+  <title>DAL</title>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -10,30 +10,28 @@
     <h1>"Deutschland: Artikel lernen!" - DAL</h1>
     <div class="word-display" :class="wordColor">{{ randomWord }}</div>
     <div class="button-container">
-      <!-- <button @click="checkArticle('Der')" :class="[(wordColor === 'green' && currentArticle === 'Der')? 'correct': '', currentArticle && wordColor != 'green'? 'incorrect': '']">Der</button>
-      <button @click="checkArticle('Die')" :class="[(wordColor === 'green' && currentArticle === 'Die')? 'correct': '']">Die</button>
-      <button @click="checkArticle('Das')" :class="[(wordColor === 'green' && currentArticle === 'Das')? 'correct': '']">Das</button> -->
-      <button v-for="obj of ['Der', 'Die', 'Das']" @click="checkArticle(obj)" :class="getClass(obj)" :disabled="blockClicks"> {{ obj }}</button>
+      <button v-for="obj of ['Der', 'Die', 'Das']" @click="checkArticle(obj)" :class="getClass(obj)" :disabled="blockClicks" class="responsive"> {{ obj }}</button>
     </div>
-    <div>
-      <span> Right: {{ rightScore }}</span> // <span> Wrong: {{ wrongScore }}</span>
+    <div class="countAnswer">
+      <div class="correct"> Richtig: {{ rightScore }}</div>
+      <div class="incorrect"> Falsch: {{ wrongScore }}</div>
     </div>
     <div class="button-container">
-      <button @click="updateWord">Update Word ({{ timer }})</button>
+      <button @click="updateWord">Aktualisieren Sie das Wort (<span class="redtimer">{{ timer }}</span>)</button>
     </div>
     <div class="word-count">
-      <h2>Word Count</h2>
+      <h2>Wortanzahl</h2>
       <ul>
-        <li>Words with article 'der': {{ wordCount.der }}</li>
-        <li>Words with article 'die': {{ wordCount.die }}</li>
-        <li>Words with article 'das': {{ wordCount.das }}</li>
+        <li>Wörter mit Artikel 'Der': {{ wordCount.der }}</li>
+        <li>Wörter mit Artikel 'Die': {{ wordCount.die }}</li>
+        <li>Wörter mit Artikel 'Das': {{ wordCount.das }}</li>
       </ul>
     </div>
     <div class="night-mode-toggle">
       <label>
         <div class="switch-ios" :class="{ checked: isNightMode }">
           <input type="checkbox" v-model="isNightMode" class="switch-ios-input">
-        </div>    <span>Night Mode</span>
+        </div>    <span>Nachtmodus</span>
       </label>
     </div>
   </div>

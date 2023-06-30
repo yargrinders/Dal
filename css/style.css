@@ -11,15 +11,17 @@ body {
     }
 
     #app {
-      max-width: 600px;
+      max-width: 90%;
       margin: 50px auto;
       padding: 20px;
       background-color: #ffffff;
       border-radius: 10px;
       box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
       transition: background-color 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-
     #app.night-mode {
       background-color: #34495e;
     }
@@ -30,15 +32,17 @@ body {
     }
 
     .word-display {
-      font-size: 24px;
+      font-size: 40px;
       font-weight: bold;
       text-align: center;
       margin-bottom: 20px;
       padding: 10px;
       border-radius: 10px;
-      border: 2px solid #3498db;
+      border: 10px solid #3498db;
       background-color: #ffffff;
       color: #3498db;
+      width: 90%;
+      height: 50px;
     }
 
     .word-display.green {
@@ -62,7 +66,7 @@ body {
       color: #ffffff;
       border: none;
       padding: 10px 20px;
-      font-size: 16px;
+      font-size: 31px;
       border-radius: 5px;
       margin: 10px;
       cursor: pointer;
@@ -79,6 +83,7 @@ body {
 
     .word-count {
       text-align: center;
+      width: 90%;
     }
 
     .word-count h2 {
@@ -176,3 +181,41 @@ body {
     .switch-ios.checked:before {
       left: calc(100% - 28px);
     }
+    .countAnswer {
+      display: flex;
+      justify-content: space-evenly;
+      min-width: 250px;
+      width: 400px;
+      max-width: 90%;
+      margin-bottom: 20px;
+    }
+    .correct,
+    .incorrect {
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 30px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    }
+    .correct {
+      background-color: #27ae60;
+    }
+    .incorrect {
+      background-color: #c0392b;
+    }
+    .responsive {
+        width: 250px;
+        height: 75px;
+        font-size: 28px;
+      }
+    /* @media screen and (max-width: 723px) {
+        .responsive {
+          width: 250px;
+          height: 75px;
+          font-size: 31px;
+        }
+      } */
+      .redtimer {
+        color: #c0392b;
+      }
